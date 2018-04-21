@@ -152,10 +152,22 @@
             bOpenInChrome = false;
         }
          if (urlParse.protocol == "webpack") {
+
             // Links like 'webpack:///./node_modules/react-dom/cjs/react-dom.development.js' or 'webpack:///(webpack)-dev-server/client?0ee4'
              isAbsolute = true;
              urlParse.path = urlParse.path.substr(1);
              urlParse.path = urlParse.path.replace(/[\(\)']+/g, '');
+
+            const path = urlParse.path.startsWith('.') ? urlParse.path.substring(1) : urlParse.path;
+
+            let trimIndex = 0;
+            let foundCommonPart = true;
+            while(foundCommonPart) {
+             trimIndex += 1;
+             foundCommonPart = path.substring(trimIndex).includes(path.substring(0, trimIndex));
+            }
+
+            urlParse.path = urlParse.path.substring(trimIndex);
         }
        
 
