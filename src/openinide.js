@@ -159,15 +159,22 @@
              urlParse.path = urlParse.path.replace(/[\(\)']+/g, '');
 
             const path = urlParse.path.startsWith('.') ? urlParse.path.substring(1) : urlParse.path;
+            const pathWithoutSlashes = path.startsWith('/') ? path.substring(1) : path;
 
             let trimIndex = 0;
             let foundCommonPart = true;
-            while(foundCommonPart) {
+            let lastValidTrim = -1;
+            while(foundCommonPart && trimIndex + 1 < pathWithoutSlashes.length) {
              trimIndex += 1;
-             foundCommonPart = path.substring(trimIndex).includes(path.substring(0, trimIndex));
+             if(pathWithoutSlashes[trimIndex] === '/') {
+               foundCommonPart = pathWithoutSlashes.substring(trimIndex + 1).includes(path.substring(0, trimIndex));
+               if(foundCommonPart) {
+                 lastValidTrim = trimIndex;
+               }
+             }
             }
 
-            urlParse.path = urlParse.path.substring(trimIndex);
+            urlParse.path = pathWithoutSlashes.substring(lastValidTrim + 1);
         }
        
 
