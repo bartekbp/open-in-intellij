@@ -252,7 +252,7 @@
         
         console.log('Open In IntelliJ - opening file from IntelliJ in Chrome', msg);
         
-        var file = 'file://'+decodeURIComponent(msg.file);
+        var file = decodeURIComponent(msg.file);
         var line = parseInt(msg.line);
         if (line > 0) {
             line--;
@@ -261,7 +261,7 @@
         chrome.devtools.panels.openResource(file, line, function(res) {
             if (res.code == "E_NOTFOUND") {
                 devConsoleLog(res);
-                alert("\n\n----------------------------------------------------\n\nDevTools couldn't open "+file+".\n\nMake sure the file is within one of your Workspaces in DevTools.\n\n----------------------------------------------------\n\n\n\n");
+                // alert("\n\n----------------------------------------------------\n\nDevTools couldn't open "+file+".\n\nMake sure the file is within one of your Workspaces in DevTools.\n\n----------------------------------------------------\n\n\n\n");
             }
         });
     });
