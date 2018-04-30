@@ -16,7 +16,7 @@
         try {
           port.postMessage(msg)
         } catch (e) {
-          console.eror(port)
+          console.error(port);
           console.error(e);
         }
       });
